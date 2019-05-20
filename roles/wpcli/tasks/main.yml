@@ -1,0 +1,52 @@
+- name: Download WP CLI
+  get_url:
+    url: https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    # force_basic_auth: yes
+    mode: a+x
+    dest: /usr/local/bin/wp
+
+
+- name: Remove wordpress directory if exists already
+  file:
+    path: "{{ site_path }}"
+    state: absent
+
+- name: Create wordpress directory
+  file:
+    path: "{{ site_path }}"
+    state: directory
+    owner: "{{ user }}"
+    group: www-data
+    mode: 0755
+
+- name: Create logs directory
+  file:
+    path: "{{ logs_path }}"
+    state: directory
+    owner: "{{ user }}"
+    group: www-data
+    mode: 0755
+
+- name: Download Wordpress Core
+  command: "wp core download --path={{ site_path }}"
+  become: yes
+  become_user: ansible
+
+# - name: Wordpress Configuration
+#   become: yes
+#   become_user: "{{ user }}"
+#   command: "wp core config --dbname={{ wp_db_name }} --dbuser={{ wp_db_user }} --dbpass={{ wp_db_password }} --dbprefix={{ wp_db_prefix }} --path=/var/www/html/wordpress"
+
+# - name: Install Wordpress Core
+#   become: yes
+#   become_user: "{{ user }}"
+#   command: "wp core install --url='http://{{ host_name }}' --title='{{ wp_title }}' --admin_user='{{ wp_admin_user }}' --admin_password='{{ wp_admin_password }}' --admin_email='{{ wp_admin_email }}' --path=/var/www/html/wordpress"
+
+# - name: Change ownership of wordpress directory
+#   file:
+#     path: "{{ site_path }}"
+#     owner: www-data
+#     group: www-data
+#     mode: 0755
+#     state: directory
+#     recurse: yes

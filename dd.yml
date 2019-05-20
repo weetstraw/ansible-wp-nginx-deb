@@ -1,0 +1,21 @@
+---
+- name: Install WordPress, MySQL, Nginx, and PHP-FPM on Debian 9
+  hosts: all
+  user: "{{ user }}"
+  become: yes
+
+  roles:
+    - debian
+    #- users
+    - common
+    - nginx
+    - php-fpm
+    #- mariadb
+    # - wpcli
+    # - letsencrypt
+
+#---
+# - name: Include vars
+#   include_vars:
+#     dir: vars
+#     name: all

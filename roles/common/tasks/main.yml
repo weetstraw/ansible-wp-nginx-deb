@@ -1,0 +1,17 @@
+---
+- name: apt-get upgrade && update
+  apt:
+    upgrade: dist
+    # update_cache: yes
+
+- name: Install essentials
+  apt:
+    name: "{{packages}}"
+  vars:
+    packages:
+    - vim
+    - git
+    - net-tools
+    - locate
+    - tree
+    
