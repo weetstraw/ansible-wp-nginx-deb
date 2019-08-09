@@ -1,16 +1,15 @@
 ---
-- name: Install WordPress, MySQL, Nginx, and PHP-FPM on Debian 9
+- name: Install WordPress, MySQL, Nginx, and PHP-FPM on Debian 10
   hosts: all
-  user: "{{ user }}"
+  user: ansible
   become: yes
 
   roles:
-    - debian
+    # debian
     #- users
-    - common
-    - nginx
-    - php-fpm
-    #- mariadb
+    #- nginx
+    #- php-fpm
+    - mariadb
     # - wpcli
     # - letsencrypt
 

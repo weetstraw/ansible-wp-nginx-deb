@@ -1,16 +1,40 @@
+- name: Validate the sudoers file before saving
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%ADMIN ALL='
+    line: '%ADMIN ALL=(ALL) NOPASSWD: ALL'
+    validate: /usr/sbin/visudo -cf %s
+    
 - name: Create admin user
   user:
     name: "{{ user }}"
     comment: "Admin account"
-    state: present
     groups: sudo
     shell: /bin/bash
     createhome: yes
 
-- name: Deploy ssh public key
-  authorized_key:
-    user: "{{ user }}"
-    key: "{{ ansible_ssh_pub_key }}"
+- name: Create a 2048-bit SSH key for user in home directory
+  user:
+    name: "{{ user }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+
+- name: "Enable passwordless sudo"
+  lineinfile:
+    path: /etc/sudoers
+    line: "{{ user }} ALL=(ALL) NOPASSWD:ALL"
+    create: yes
+
+    # owner: "root"
+    # group: "root"
+    # mode: "0440"
+
+# - name: Deploy ssh public key
+#   authorized_key:
+#     user: "{{ user }}"
+#     key: "{{ ansible_ssh_pub_key }}"
 
 # - name: "Enable including files from sudoers.d"
 #   lineinfile:
@@ -28,10 +52,3 @@
 #     state: "absent"
 #     backup: True
 #
-- name: "Enable passwordless sudo"
-  copy:
-    content: "%{{ user }} ALL=(ALL) NOPASSWD:ALL"
-    dest: "/etc/sudoers/{{ user }}"
-    owner: "root"
-    group: "root"
-    mode: "0440"

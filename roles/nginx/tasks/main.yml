@@ -1,24 +1,34 @@
----
+--- #NGINX
+
 - name: Install nginx
   apt:
     name: nginx
     state: latest
 
+- name: create cache directory
+  file:
+    path: /usr/share/nginx/cache/fcgi
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0755
+    recurse: yes
+
 - name: Copy nginx configuration for wordpress
   template:
-    src: wordpress
-    dest: /etc/nginx/sites-available/wordpress
-    force: yes
+    src: wordpress.conf
+    dest: /etc/nginx/conf.d/{{hostname}}.conf
+    # force: yes
   notify:
     restart nginx
 
-- name: Copy nginx ssl configuration for wordpress
-  template:
-    src: wordpress
-    dest: /etc/nginx/sites-available/wordpress-ssl
-    force: yes
-  notify:
-    restart nginx
+# - name: Copy nginx ssl configuration for wordpress
+#   template:
+#     src: wordpress
+#     dest: /etc/nginx/sites-available/wordpress-ssl
+#     force: yes
+#   notify:
+#     restart nginx
 
 - name: Copy nginx general configuration
   template:
@@ -31,14 +41,6 @@
     src: logrotate
     dest: /etc/logrotate.d/nginx
   notify: restart nginx
-
-- name: Create symlink for wordpress configuration
-  file:
-    src: /etc/nginx/sites-available/wordpress
-    dest: /etc/nginx/sites-enabled/wordpress
-    state: link
-  notify:
-    reload nginx
 
 - name: Delete default
   file:

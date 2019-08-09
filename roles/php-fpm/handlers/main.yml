@@ -1,7 +1,10 @@
 ---
-- name: stop php7.0-fpm
-  shell: service php7.0-fpm stop
-  ignore_errors: True
+- name: stop php-fpm
+  systemd:
+    service: php7.3-fpm
+    state: stopped
 
-- name: restart php7.0-fpm
-  shell: service php7.0-fpm restart
+- name: restart php-fpm
+  systemd:
+    service: php7.3-fpm
+    state: restarted

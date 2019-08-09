@@ -5,7 +5,28 @@
     regexp: '^127.0.0.1[ \t]localhost'
     line: "127.0.0.1  {{hostname}}"
     state: present
+    backup: yes
 
 - name: Set timezone
   timezone:
     name: "{{ timezone }}"
+
+- name: apt-get upgrade && update
+  become: true
+  apt:
+    upgrade: dist
+    update_cache: yes
+    cache_valid_time: 86400
+
+- name: Install essentials
+  apt:
+    name: "{{packages}}"
+  vars:
+    packages:
+    - vim
+    - git
+    - net-tools
+    - locate
+    - tree
+    - htop
+    - tmux
