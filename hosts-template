@@ -1,0 +1,23 @@
+[ddservers]
+testserver ansible_host=127.0.0.1
+
+[ddservers:vars]
+ansible_python_interpreter=/usr/bin/python3
+root=root
+user=newsletter
+hostname=myhostname
+
+ssh_pub_key=id_rsa.pub
+
+server_ip_address=127.0.0.1
+server_address=modernretail.co
+dev_server_address=newsletters.digidaymedia.com
+site_path=/var/www/html/public_html
+logs_path=/var/www/html/logs/
+timezone=America/New_York
+fastcgi_cache_path=/usr/share/nginx/cache/fcgi
+
+mysql_user=theuser
+mysql_root_password=theuser-password
+mysql_password=mysql-password
+wp_db_name={{hostname}}

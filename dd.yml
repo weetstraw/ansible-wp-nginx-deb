@@ -5,11 +5,11 @@
   become: yes
 
   roles:
-    # debian
+    # - debian
     #- users
     #- nginx
     #- php-fpm
-    - mariadb
+    # - mariadb
     # - wpcli
     # - letsencrypt
 

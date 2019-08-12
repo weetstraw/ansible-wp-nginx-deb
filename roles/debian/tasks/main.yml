@@ -12,7 +12,6 @@
     name: "{{ timezone }}"
 
 - name: apt-get upgrade && update
-  become: true
   apt:
     upgrade: dist
     update_cache: yes
@@ -23,10 +22,12 @@
     name: "{{packages}}"
   vars:
     packages:
-    - vim
+    # - python-apt
     - git
     - net-tools
     - locate
     - tree
     - htop
     - tmux
+    - fail2ban
+    - mysqltuner
