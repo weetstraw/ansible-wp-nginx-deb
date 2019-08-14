@@ -1,3 +1,4 @@
+#https://github.com/geerlingguy/ansible-role-mysql/blob/master/tasks/setup-Debian.yml
 ---
 - name: Install MariaDB package
   apt:
@@ -5,15 +6,38 @@
   vars:
     packages:
       - mariadb-server
-      - default-libmysqlclient-dev
-      - python3-mysqldb
-      # - python-pymysql
+      - mariadb-common
+      - libmariadb-dev
+      # - python-pip
+      # - mysqltuner
+      - mycli
+      - python-pymysql
+      # - python-mysqldb
+      # - default-libmysqlclient-dev
+      - mydumper
     state: latest
 
-- name: Create a new database
-  mysql_db:
-    name: "{{wp_db_name}}"
-    state: present
+# - name: Install Pymysql via pip3
+#   pip:
+#     name: pymysql
+
+- name: Copy my.cnf
+  template:
+    src: my.cnf
+    dest: /etc/mysql/my.cnf
+    force: yes
+  notify:
+    restart mariadb
+
+- name: Start mariadb
+  service:
+    name: MariaDB
+    state: restarted
+
+# - name: Create a new database
+#   mysql_db:
+#     name: "{{wp_db_name}}"
+#     state: present
 
 - name: Create database user
   mysql_user:
@@ -21,14 +45,6 @@
     password: "{{mysql_user_password}}"
     priv: '*.*:ALL'
     state: present
-
-- name: Copy my.cnf
-  template:
-    src: my.cnf
-    dest: /etc/mysql/my.cnf
-    # force: yes
-  notify:
-    restart mysql
 
 - name: Delete anonymous MySQL server user for localhost
   mysql_user:

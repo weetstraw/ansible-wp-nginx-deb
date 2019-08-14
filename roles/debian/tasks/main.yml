@@ -22,12 +22,15 @@
     name: "{{packages}}"
   vars:
     packages:
-    # - python-apt
     - git
+    # - python-apt
     - net-tools
     - locate
     - tree
     - htop
     - tmux
     - fail2ban
-    - mysqltuner
+
+# - name: Install Pymysql via pip3
+#   pip:
+#     name: pymysql

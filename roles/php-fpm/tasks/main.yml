@@ -51,7 +51,7 @@
 - name: Copy php-fpm configuration
   template:
     src: wordpress.conf
-    dest: /etc/php/7.3/fpm/pool.d/"{{hostname}}".conf
+    dest: /etc/php/7.3/fpm/pool.d/{{hostname}}.conf
   notify: restart php-fpm
 
 - name: Copy php.ini
