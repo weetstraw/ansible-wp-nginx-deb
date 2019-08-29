@@ -1,18 +1,8 @@
 ---
-- name: Disable root login
-  lineinfile:
+- name: Copy sshd_config
+  template:
+    src: sshd_config
     dest: /etc/ssh/sshd_config
-    regexp: "^PermitRootLogin"
-    line: "PermitRootLogin no"
-    state: present
-  notify: 
-    restart ssh
-
-- name: Disable password authentication
-  lineinfile:
-    dest: /etc/ssh/sshd_config
-    regexp: "^#?PasswordAuthentication"
-    line: "PasswordAuthentication no"
-    state: present
-  notify: 
+    # force: yes
+  notify:
     restart ssh

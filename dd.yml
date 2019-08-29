@@ -7,12 +7,12 @@
   roles:
     - debian
     - users
-      # ssh
+    - ssh
     - nginx
     - php-fpm
     # mariadb
     # - wpcli
-    # - letsencrypt
+    - letsencrypt
 
 #---
 # - name: Include vars

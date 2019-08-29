@@ -30,8 +30,6 @@
     - htop
     - tmux
     - fail2ban
-    - certbot 
-    - python-certbot-nginx 
 
 # - name: Install Pymysql via pip3
 #   pip:

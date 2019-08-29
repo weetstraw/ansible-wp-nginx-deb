@@ -8,8 +8,8 @@
       - certbot
       - python-certbot-nginx
 
-- name: Install ssl_certificate
-  command: certbot --nginx certonly
+#- name: Install ssl_certificate
+#  command: certbot --nginx certonly
 
 # - name: Download and install certbot
 #   get_url: url=https://dl.eff.org/certbot-auto dest=/usr/local/bin/certbot-auto mode=0770
